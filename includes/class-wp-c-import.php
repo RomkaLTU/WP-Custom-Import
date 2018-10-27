@@ -122,6 +122,16 @@ class Wp_C_Import {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wp-c-import-public.php';
 
+		/**
+		 * Redux framework
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'framework/ReduxCore/framework.php';
+
+		/**
+		 * Redux config
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/redux-config.php';
+
 		$this->loader = new Wp_C_Import_Loader();
 
 	}
