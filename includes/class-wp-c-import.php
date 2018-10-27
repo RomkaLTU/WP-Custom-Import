@@ -176,6 +176,8 @@ class Wp_C_Import {
 
 		$this->loader->add_action( 'redux/options/wp_c_import/saved', $plugin_admin, 'settings_saved' );
 
+		$this->loader->add_action('wp_ajax_product_import', $plugin_admin, 'product_import');
+
 	}
 
 	/**
