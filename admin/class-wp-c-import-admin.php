@@ -140,4 +140,23 @@ class Wp_C_Import_Admin {
 
 	}
 
+	/**
+	 * Callback after Redux settings saved
+	 */
+	public function settings_saved() {
+
+		global $wp_c_import;
+
+		$cron = $wp_c_import['opt-crontime'] ?? '';
+
+		if ( ! empty($cron) ) {
+			wp_clear_scheduled_hook('wpci_product_import');
+
+			if ( ! wp_next_scheduled ( 'wpci_product_import' ) ) {
+				wp_schedule_event(time(), $cron, 'wpci_product_import');
+			}
+		}
+
+	}
+
 }
