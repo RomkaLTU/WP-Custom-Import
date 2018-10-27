@@ -144,117 +144,41 @@ if ( ! isset( $args['global_variable'] ) || $args['global_variable'] !== false )
 	$args['intro_text'] = __( '<p>This text is displayed above the options panel. It isn\'t required, but more info is always better! The intro_text field accepts all HTML.</p>', 'redux-framework-demo' );
 }
 
-// Add content after the form.
-$args['footer_text'] = __( '<p>This text is displayed below the options panel. It isn\'t required, but more info is always better! The footer_text field accepts all HTML.</p>', 'redux-framework-demo' );
-
 Redux::setArgs( $opt_name, $args );
 
-/*
- * ---> END ARGUMENTS
- */
-
-/*
- * ---> START HELP TABS
- */
-
-$tabs = array(
-	array(
-		'id'      => 'redux-help-tab-1',
-		'title'   => __( 'Theme Information 1', 'redux-framework-demo' ),
-		'content' => __( '<p>This is the tab content, HTML is allowed.</p>', 'redux-framework-demo' )
-	),
-	array(
-		'id'      => 'redux-help-tab-2',
-		'title'   => __( 'Theme Information 2', 'redux-framework-demo' ),
-		'content' => __( '<p>This is the tab content, HTML is allowed.</p>', 'redux-framework-demo' )
-	)
-);
-Redux::setHelpTab( $opt_name, $tabs );
-
-// Set the help sidebar
-$content = __( '<p>This is the sidebar content, HTML is allowed.</p>', 'redux-framework-demo' );
-Redux::setHelpSidebar( $opt_name, $content );
-
-
-/*
- * <--- END HELP TABS
- */
-
-
-/*
- *
- * ---> START SECTIONS
- *
- */
-
-/*
-
-	As of Redux 3.5+, there is an extensive API. This API can be used in a mix/match mode allowing for
-
-
- */
-
-// -> START Basic Fields
-Redux::setSection( $opt_name, array(
-	'title'  => __( 'Basic Field', 'redux-framework-demo' ),
+Redux::setSection( $opt_name, [
+	'title'  => __( 'Settings', 'redux-framework-demo' ),
 	'id'     => 'basic',
-	'desc'   => __( 'Basic field with no subsections.', 'redux-framework-demo' ),
+	'desc'   => __( 'Main plugin functionality settings', 'wpci' ),
 	'icon'   => 'el el-home',
-	'fields' => array(
-		array(
-			'id'       => 'opt-text',
+	'fields' => [
+		[
+			'id'       => 'opt-xmlpath',
 			'type'     => 'text',
-			'title'    => __( 'Example Text', 'redux-framework-demo' ),
-			'desc'     => __( 'Example description.', 'redux-framework-demo' ),
-			'subtitle' => __( 'Example subtitle.', 'redux-framework-demo' ),
-			'hint'     => array(
-				'content' => 'This is a <b>hint</b> tool-tip for the text field.<br/><br/>Add any HTML based text you like here.',
-			)
-		)
-	)
-) );
-
-Redux::setSection( $opt_name, array(
-	'title' => __( 'Basic Fields', 'redux-framework-demo' ),
-	'id'    => 'basic',
-	'desc'  => __( 'Basic fields as subsections.', 'redux-framework-demo' ),
-	'icon'  => 'el el-home'
-) );
-
-Redux::setSection( $opt_name, array(
-	'title'      => __( 'Text', 'redux-framework-demo' ),
-	'desc'       => __( 'For full documentation on this field, visit: ', 'redux-framework-demo' ) . '<a href="//docs.reduxframework.com/core/fields/text/" target="_blank">//docs.reduxframework.com/core/fields/text/</a>',
-	'id'         => 'opt-text-subsection',
-	'subsection' => true,
-	'fields'     => array(
-		array(
-			'id'       => 'text-example',
+			'title'    => __( 'Import file path', 'wpci' ),
+			'desc'     => __( 'Absolute path', 'wpci' ),
+		],
+		[
+			'id'       => 'opt-xmlurl',
 			'type'     => 'text',
-			'title'    => __( 'Text Field', 'redux-framework-demo' ),
-			'subtitle' => __( 'Subtitle', 'redux-framework-demo' ),
-			'desc'     => __( 'Field Description', 'redux-framework-demo' ),
-			'default'  => 'Default Text',
-		),
-	)
-) );
-
-Redux::setSection( $opt_name, array(
-	'title'      => __( 'Text Area', 'redux-framework-demo' ),
-	'desc'       => __( 'For full documentation on this field, visit: ', 'redux-framework-demo' ) . '<a href="//docs.reduxframework.com/core/fields/textarea/" target="_blank">//docs.reduxframework.com/core/fields/textarea/</a>',
-	'id'         => 'opt-textarea-subsection',
-	'subsection' => true,
-	'fields'     => array(
-		array(
-			'id'       => 'textarea-example',
-			'type'     => 'textarea',
-			'title'    => __( 'Text Area Field', 'redux-framework-demo' ),
-			'subtitle' => __( 'Subtitle', 'redux-framework-demo' ),
-			'desc'     => __( 'Field Description', 'redux-framework-demo' ),
-			'default'  => 'Default Text',
-		),
-	)
-) );
-
-/*
- * <--- END SECTIONS
- */
+			'title'    => __( 'Import file url', 'wpci' ),
+			'desc'     => __( 'URL of XML. This setting overrides path option above.', 'wpci' ),
+		],
+		[
+			'id'       => 'opt-crontime',
+			'type'     => 'text',
+			'title'    => __( 'Import frequency', 'wpci' ),
+			'desc'     => __( 'In minutes, only integers', 'wpci' ),
+		],
+		[
+			'id'       => 'opt-manualimport',
+			'type'     => 'button_set',
+			'title'    => __('Manual import', 'wpci'),
+			'desc'     => __('Manual import products from uploaded file', 'wpci'),
+			'options' => [
+				'1' => 'Manual import',
+			],
+			'default' => '1'
+		],
+	]
+] );
