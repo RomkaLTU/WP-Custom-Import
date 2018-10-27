@@ -172,6 +172,8 @@ class Wp_C_Import {
 			$this->loader->add_action('admin_notices', $plugin_admin, 'no_wc');
 		}
 
+		$this->loader->add_action('wpci_product_import', $plugin_admin, 'product_import');
+
 	}
 
 	/**

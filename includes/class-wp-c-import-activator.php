@@ -23,13 +23,35 @@
 class Wp_C_Import_Activator {
 
 	/**
-	 * Short Description. (use period)
+	 * The ID of this plugin.
 	 *
-	 * Long Description.
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $plugin_name    The ID of this plugin.
+	 */
+	private $plugin_name;
+
+	/**
+	 * The version of this plugin.
 	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $version    The current version of this plugin.
+	 */
+	private $version;
+
+	/**
+	 * Plugin activation
+
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+
+		if ( ! wp_next_scheduled ( 'wpci_product_import' ) ) {
+
+			wp_schedule_event(time(), 'daily', 'wpci_product_import');
+
+		}
 
 	}
 

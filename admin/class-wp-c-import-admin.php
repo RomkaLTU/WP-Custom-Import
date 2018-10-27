@@ -76,9 +76,67 @@ class Wp_C_Import_Admin {
 
 	}
 
+	/**
+	 * Notice about missing Woocommerce plugin activation
+	 */
 	public function no_wc() {
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/no-wc-notice.php';
+	}
+
+	public function product_import() {
+
+		 self::update_products();
+
+	}
+
+	/**
+	 * Update products
+	 */
+	public static function update_products() {
+
+		global $wp_c_import, $wpdb;
+
+		$xmlurl = $wp_c_import['opt-xmlurl'] ?? '';
+		$xmlpath = $wp_c_import['opt-xmlpath'] ?? '';
+
+		if ( ! empty($xmlurl) ) {
+
+			$remote_xml_content = wp_remote_get( $xmlurl, [ 'sslverify' => false ] )['body'];
+			$xml = simplexml_load_string( $remote_xml_content ) or die('Bad XML, check response from: ' . $xmlurl );
+
+		} elseif ( ! empty($xmlpath) ) {
+
+			$xml = simplexml_load_file( get_home_path() . DIRECTORY_SEPARATOR . $xmlpath ) or die('Bad XML, check response from: ' . $xmlpath );
+
+		}
+
+		if ( ! empty($products) ) {
+			foreach( $products as $xml_product ) {
+
+				$product_name = (string)$xml_product->name;
+				$sku = (string)$xml_product->catalogue_number;
+				$stock = (int)$xml_product->storehouse_counter;
+				$in_stock = ( $stock > 0 ? 'instock' : 'outofstock' );
+				$price = (double)$xml_product->price;
+				$barcode = (string)$xml_product->barcode;
+
+				$product_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1", $sku ) );
+
+				if ( $product_id ) {
+					$product = new WC_Product( $product_id );
+
+					$post_id = $product->get_id();
+
+					update_post_meta( $post_id, '_stock_status', $in_stock);
+					update_post_meta( $post_id, '_regular_price', $price );
+					update_post_meta( $post_id, '_stock', $stock );
+					wp_update_post([
+						'ID' => $post_id,
+						'post_title' => $product_name,
+					]);
+				}
+			}
+		}
 
 	}
 

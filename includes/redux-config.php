@@ -166,9 +166,15 @@ Redux::setSection( $opt_name, [
 		],
 		[
 			'id'       => 'opt-crontime',
-			'type'     => 'text',
+			'type'     => 'select',
 			'title'    => __( 'Import frequency', 'wpci' ),
-			'desc'     => __( 'In minutes, only integers', 'wpci' ),
+			'desc'     => __( 'Select import frequency', 'wpci' ),
+			'options'  => [
+				'hourly' => 'Hourly',
+				'twicedaily' => 'Twice per day',
+				'daily' => 'Daily',
+			],
+			'default' => 'daily'
 		],
 		[
 			'id'       => 'opt-manualimport',
@@ -182,3 +188,5 @@ Redux::setSection( $opt_name, [
 		],
 	]
 ] );
+
+Redux::init($opt_name);
