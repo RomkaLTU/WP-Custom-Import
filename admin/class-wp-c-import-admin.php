@@ -114,7 +114,6 @@ class Wp_C_Import_Admin {
 		if ( ! empty($xml_products) ) {
 			foreach( $xml_products as $xml_product ) {
 
-				$product_name = (string)$xml_product->name;
 				$sku = (string)$xml_product->catalogue_number;
 				$stock = (int)$xml_product->storehouse_counter;
 				$in_stock = ( $stock > 0 ? 'instock' : 'outofstock' );
@@ -129,10 +128,6 @@ class Wp_C_Import_Admin {
 					update_post_meta( $product_id, '_price', $price );
 					update_post_meta( $product_id, '_stock_status', $in_stock );
 					update_post_meta( $product_id, '_stock', $stock );
-					wp_update_post([
-						'ID' => $product_id,
-						'post_title' => $product_name,
-					]);
 
 					wc_delete_product_transients( $product_id );
 				}
